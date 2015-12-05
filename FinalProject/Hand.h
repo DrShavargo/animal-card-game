@@ -4,12 +4,12 @@
 #include <memory>
 #include <exception>
 #include <stdexcept>
-#include <vector>
+#include <list>
 
 using namespace std;
 
 class Hand {
-	vector<shared_ptr<AnimalCard>> _hand;
+	list<shared_ptr<AnimalCard>> _hand;
 public:
 	~Hand();
 	Hand& operator+=(shared_ptr<AnimalCard>);

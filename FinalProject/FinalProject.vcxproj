@@ -82,12 +82,16 @@
     <ClInclude Include="AnimalCard.h" />
     <ClInclude Include="AnimalCardFactory.h" />
     <ClInclude Include="Hand.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Table.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ActionCard.cpp" />
     <ClCompile Include="AnimalCard.cpp" />
-    <ClCompile Include="AnimalCardFactory.cpp" />
     <ClCompile Include="Hand.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

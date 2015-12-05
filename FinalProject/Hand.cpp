@@ -15,9 +15,9 @@ Hand& Hand::operator+=(shared_ptr<AnimalCard> ptr){
 
 Hand& Hand::operator-=(shared_ptr<AnimalCard> ptr){
 	try {
-		int pos = find(_hand.begin(), _hand.end(), ptr) - _hand.begin();
-		if (pos == _hand.end() - _hand.begin()){ throw  MissingCard(); }
-		_hand.erase(_hand.begin() + pos);
+		list<shared_ptr<AnimalCard>>::iterator it = find(_hand.begin(), _hand.end(), ptr);
+		if (it == _hand.end()){ throw  MissingCard(); }
+		_hand.erase(it);
 	}
 	catch (MissingCard e){
 		cout << e.what() << endl;
@@ -26,7 +26,9 @@ Hand& Hand::operator-=(shared_ptr<AnimalCard> ptr){
 }
 
 shared_ptr<AnimalCard> Hand::operator[](int pos){
-	return _hand[pos];
+	list<shared_ptr<AnimalCard>>::iterator it = _hand.begin();
+	advance(it, pos);
+	return *it;
 }
 
 void Hand::print(){

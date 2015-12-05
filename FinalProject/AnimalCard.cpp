@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
+#include <vector>
 #include "AnimalCard.h"
-
 using namespace std;
 
 AnimalCard::AnimalCard(char tl, char tr, char br, char bl){
@@ -26,6 +26,11 @@ void AnimalCard::printRow(EvenOdd evenOdd){
 	else{
 		cout << _bl << _br << " ";
 	}
+}
+
+char* AnimalCard::getAnimals(){
+	char v[4] = { _tl, _tr, _br, _bl };
+	return v;
 }
 
 NoSplit::NoSplit(char c) : AnimalCard(c, c, c, c){}

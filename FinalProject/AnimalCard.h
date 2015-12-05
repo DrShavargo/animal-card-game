@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 enum Orientation {UP, DOWN};
 enum EvenOdd {EVEN, ODD};
 enum Split {VERTICAL, HORIZONTAL};
@@ -17,6 +19,7 @@ public:
 	virtual void setOrientation(Orientation);
 	virtual void setRow(EvenOdd);
 	virtual void printRow(EvenOdd);
+	char* getAnimals();
 };
 
 class NoSplit : public AnimalCard { 
