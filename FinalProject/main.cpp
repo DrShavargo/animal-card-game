@@ -1,4 +1,5 @@
 #include <iostream>
+#include <regex>
 #include "AnimalCard.h"
 #include "AnimalCardFactory.h"
 #include "Hand.h"
@@ -9,25 +10,14 @@
 using namespace std;
 
 void main(){
-	
-	/*SplitThree* three = new SplitThree('g', 'f', 'r', VERTICAL);
-	SplitTwo* two = new SplitTwo('k', 'r', HORIZONTAL);
-	Hand hand;
-	shared_ptr<AnimalCard> card = make_shared<AnimalCard>(*three);
-	hand+=(card);
-	Player player("Joe", "dragon");
-	player.setHand(hand);
-	Hand *player_hand = player.getHand();
-	shared_ptr<AnimalCard> card_two = make_shared<AnimalCard>(*two);
-	*player_hand+=(card_two);
-	player_hand->print();*/
-
 	// Setup game
 	string animalList[5] = { "bear", "deer", "hare", "moose", "wolf" };
 	PlayerList* pList = PlayerList::getList();
 	AnimalCardFactory* factory = AnimalCardFactory::getfactory();
 	Deck<shared_ptr<AnimalCard>> deck = factory->getdeck();
 	Table table;
+
+	// TODO: Implement reading and saving to file
 
 	// Initialize players and secret animals
 	int playerCount = 0;
@@ -72,10 +62,31 @@ void main(){
 			h += card;
 			p.setHand(h);
 			p.print();
+			h.print();
 
+			badCardNum:
 			int cardNumber = 0;
-			cout << "Please pick a card, from 0 to " << h.noCards() - 1;
+			cout << "Please pick a card, from 0 to " << h.noCards() - 1 << ": " << endl;
 			cin >> cardNumber;
+			if (cin.fail()) {
+				cout << "Enter a valid number." << endl;
+				goto badCardNum;
+			}
+
+			shared_ptr<AnimalCard> chosenCard = h[cardNumber];
+			char type = chosenCard->_tl;
+			// Joker
+			if (type == 'j'){
+
+			}
+			// AnimalCard
+			else if (islower(type)){
+				
+			}
+			// ActionCard
+			else{
+				
+			}
 		}
 	}
 

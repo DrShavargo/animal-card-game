@@ -62,14 +62,19 @@ void Table::print(){
 				shared_ptr<AnimalCard> card = _table[i][j];
 				card->printRow(ODD);
 			}
+			else{
+				cout << "   ";
+			}
 		}
-		cout << endl;
 		for (int k = 0; k < 103; k++){
 			if (_table[i][k] != NULL){
 				shared_ptr<AnimalCard> card = _table[i][k];
 				card->printRow(EVEN);
 			}
+			else{
+				cout << "   ";
+			}
 		}
-		cout << endl <<endl;
+		cout <<endl;
 	}
 }
