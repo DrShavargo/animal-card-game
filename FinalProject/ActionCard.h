@@ -13,6 +13,7 @@ public:
 	int oldCol;
 	int newRow;
 	int newCol;
+	QueryResult(bool);
 };
 
 class ActionCard : public NoSplit{

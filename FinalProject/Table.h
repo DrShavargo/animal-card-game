@@ -14,6 +14,7 @@ public:
 	shared_ptr<AnimalCard> pickAt(int, int);
 	shared_ptr<AnimalCard> get(int, int);
 	bool win(string&);
+	void print();
 };
 
 class IllegalPlacement : public runtime_error {

@@ -14,9 +14,8 @@ using namespace std;
 template <class T>
 class Deck : public vector<T>{
 public:
-	shared_ptr<T> draw(){
-		return self.pop_back();
-	}
+	Deck() : vector<T>(){}
+	// TODO: shared_ptr<T> draw()
 };
 
 class AnimalCardFactory {
@@ -45,16 +44,16 @@ class AnimalCardFactory {
 			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&BearAction())));
 		}
 		for (int i = 0; i < 3; i++){
-
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&DeerAction())));
 		}
 		for (int i = 0; i < 3; i++){
-
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&HareAction())));
 		}
 		for (int i = 0; i < 3; i++){
-
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&MooseAction())));
 		}
 		for (int i = 0; i < 3; i++){
-
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&WolfAction())));
 		}
 		_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&Joker('j'))));
 	};

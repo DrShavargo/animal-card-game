@@ -28,11 +28,6 @@ void AnimalCard::printRow(EvenOdd evenOdd){
 	}
 }
 
-char* AnimalCard::getAnimals(){
-	char v[4] = { _tl, _tr, _br, _bl };
-	return v;
-}
-
 NoSplit::NoSplit(char c) : AnimalCard(c, c, c, c){}
 
 SplitTwo::SplitTwo(char t, char b, Split split = HORIZONTAL) : AnimalCard(t, t, b, b){

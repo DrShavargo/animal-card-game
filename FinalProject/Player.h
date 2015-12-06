@@ -15,7 +15,7 @@ public:
 	string getSecretAnimal();
 	string getName();
 	void setName(string);
-	Hand* getHand();
+	Hand getHand();
 	void setHand(Hand);
 	void print();
 };

@@ -9,7 +9,7 @@ using namespace std;
 
 Table::Table(){
 	_table[103][103] = { { NULL } };
-	shared_ptr<AnimalCard> pnt(new StartCard);
+	shared_ptr<AnimalCard> pnt(new StartCard());
 	_table[52][52] = pnt;
 }
 
@@ -42,14 +42,34 @@ bool Table::win(string& animal){
 	int count = 0;
 	for (int i = 0; i < 103; i++){
 		for (int j = 0; j < 103; j++){
-			shared_ptr<AnimalCard> ptr = _table[i][j];
-			AnimalCard* card = ptr.get();
-			char* v = card->getAnimals();
-			vector<char> w(v, v + sizeof(v) / sizeof(v[0]));
-			for (char a : w){
-				if (a == searched){ count++; }
+			if (_table[i][j] != NULL){
+				shared_ptr<AnimalCard> ptr = _table[i][j];
+				AnimalCard* card = ptr.get();
+				vector<char> w = { card->_tl, card->_tr, card->_br, card->_bl };
+				for (char a : w){
+					if (a == searched){ count++; }
+				}
 			}
 		}
 	}
-	return true;
+	return (count >= 12);
+}
+
+void Table::print(){
+	for (int i = 0; i < 103; i++){
+		for (int j = 0; j < 103; j++){
+			if (_table[i][j] != NULL){
+				shared_ptr<AnimalCard> card = _table[i][j];
+				card->printRow(ODD);
+			}
+		}
+		cout << endl;
+		for (int k = 0; k < 103; k++){
+			if (_table[i][k] != NULL){
+				shared_ptr<AnimalCard> card = _table[i][k];
+				card->printRow(EVEN);
+			}
+		}
+		cout << endl <<endl;
+	}
 }

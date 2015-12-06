@@ -26,8 +26,8 @@ void Player::setName(string name){
 	_name = name;
 }
 
-Hand* Player::getHand(){
-	return &_hand;
+Hand Player::getHand(){
+	return _hand;
 }
 
 void Player::setHand(Hand hand){

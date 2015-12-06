@@ -10,16 +10,15 @@ class AnimalCard {
 protected:
 	Orientation _orientation = UP;
 	EvenOdd _evenOdd;
+public:
 	char _tl;
 	char _tr;
 	char _bl;
 	char _br;
-public:
 	AnimalCard(char, char, char, char);
 	virtual void setOrientation(Orientation);
 	virtual void setRow(EvenOdd);
 	virtual void printRow(EvenOdd);
-	char* getAnimals();
 };
 
 class NoSplit : public AnimalCard { 
