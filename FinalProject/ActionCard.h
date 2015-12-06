@@ -6,7 +6,7 @@
 using namespace std;
 
 class QueryResult{
-private:
+public:
 	bool _valid;
 	Player* targetPlayer;
 	int oldRow;

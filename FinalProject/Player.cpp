@@ -37,3 +37,9 @@ void Player::setHand(Hand hand){
 void Player::print(){
 	cout << _name << " has " << _hand.noCards() << " cards and a " << _animal << " as his secret animal." << endl;
 }
+
+PlayerList* PlayerList::_list = new PlayerList();
+
+void PlayerList::addPlayer(Player player){
+	_players.push_back(player);
+}

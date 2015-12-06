@@ -13,41 +13,51 @@ using namespace std;
 
 template <class T>
 class Deck : public vector<T>{
-	vector<T> _deck;
 public:
 	shared_ptr<T> draw(){
-		return _deck.pop_back();
+		return self.pop_back();
 	}
 };
 
-template <class T>
 class AnimalCardFactory {
 	static AnimalCardFactory *_factory;
-	Deck<T> _deck;
+	Deck<shared_ptr<AnimalCard>> _deck;
 	AnimalCardFactory(){
-		char animals[5] = { b, d, h, m, w };
+		char animals[5] = { 'b', 'd', 'h', 'm', 'w' };
 		int needle = 0;
 		for (int i = 0; i < 5; i++){
-			_deck.push_back(NoSplit(animals[needle % 5]));
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&NoSplit(animals[needle % 5]))));
 			needle++;
 		}
 		for (int i = 0; i < 10; i++){
-			_deck.push_back(SplitTwo(animals[needle % 5], animals[(needle+1) % 5], HORIZONTAL));
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&SplitTwo(animals[needle % 5], animals[(needle + 1) % 5], HORIZONTAL))));
 			needle += 2;
 		}
 		for (int i = 0; i < 20; i++){
-			_deck.push_back(SplitThree(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], VERTICAL));
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&SplitThree(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], VERTICAL))));
 			needle += 3;
 		}
 		for (int i = 0; i < 15; i++){
-			_deck.push_back(SplitFour(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], animals[(needle + 3) % 5]));
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&SplitFour(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], animals[(needle + 3) % 5]))));
 			needle += 4;
 		}
-		for (int i = 0; i < 15; i++){
-			//Add action cards
+		for (int i = 0; i < 3; i++){
+			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&BearAction())));
 		}
-		_deck.push_back(Joker());
-	}
+		for (int i = 0; i < 3; i++){
+
+		}
+		for (int i = 0; i < 3; i++){
+
+		}
+		for (int i = 0; i < 3; i++){
+
+		}
+		for (int i = 0; i < 3; i++){
+
+		}
+		_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&Joker('j'))));
+	};
 public:
 	static AnimalCardFactory* getfactory(){
 		if (!_factory){

@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClCompile Include="ActionCard.cpp" />
     <ClCompile Include="AnimalCard.cpp" />
+    <ClCompile Include="AnimalCardFactory.cpp" />
     <ClCompile Include="Hand.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
