@@ -1,5 +1,4 @@
 #include <iostream>
-#include <regex>
 #include "AnimalCard.h"
 #include "AnimalCardFactory.h"
 #include "Hand.h"
@@ -48,18 +47,12 @@ void main(){
 
 	havePlayers:
 	while (1){
-		// Check if we have a winner
-		for (Player p : pList->getPlayers()){
-			if (table.win(p.getSecretAnimal())){ goto winner; }
-		}
-		
-		// No winner, start the round
+		// Start the round
 		for (Player p : pList->getPlayers()){
 			table.print();
-			shared_ptr<AnimalCard> card(deck.back());
-			deck.pop_back();
 			Hand h = p.getHand();
-			h += card;
+			h += deck.back();
+			deck.pop_back();
 			p.setHand(h);
 			p.print();
 			h.print();
@@ -69,24 +62,59 @@ void main(){
 			cout << "Please pick a card, from 0 to " << h.noCards() - 1 << ": " << endl;
 			cin >> cardNumber;
 			if (cin.fail()) {
-				cout << "Enter a valid number." << endl;
+				cout << "Enter a valid number" << endl;
 				goto badCardNum;
 			}
 
 			shared_ptr<AnimalCard> chosenCard = h[cardNumber];
 			char type = chosenCard->_tl;
-			// Joker
-			if (type == 'j'){
+			// AnimalCard or Joker
+			if (islower(type)){
+				string passOrGo;
+				cout << "Would you like to pass? (yes/no)";
+				cin >> passOrGo;
+				if (passOrGo == "no"){
+					badPos:
+					int chosenRow, chosenColumn;
+					
+					cout << "Select a row: ";
+					cin >> chosenRow;
+					if (cin.fail()) {
+						cout << "Enter numbers only" << endl;
+						goto badPos;
+					}
+					
+					cout << "Select a column: ";
+					cin >> chosenColumn;
+					if (cin.fail()) {
+						cout << "Enter numbers only" << endl;
+						goto badPos;
+					}
 
-			}
-			// AnimalCard
-			else if (islower(type)){
-				
+					int cardsToPick = table.addAt(chosenCard, chosenRow, chosenColumn);
+					if (cardsToPick > 0){
+						for (int i = 0; i < cardsToPick; i++){
+							h += deck.back();
+							deck.pop_back();
+						}
+						p.setHand(h);
+					}
+					else{
+						cout << "You can't place this card at that location!" << endl;
+						goto badCardNum;
+					}
+				}
+
 			}
 			// ActionCard
 			else{
 				
 			}
+		}
+
+		// Check if we have a winner
+		for (Player p : pList->getPlayers()){
+			if (table.win(p.getSecretAnimal())){ goto winner; }
 		}
 	}
 

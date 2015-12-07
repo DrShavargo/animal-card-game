@@ -10,8 +10,9 @@ Player::Player(string name, string animal){
 }
 
 string Player::swapSecretAnimal(string& animal){
+	string currAnimal = _animal;
 	_animal = animal;
-	return _animal;
+	return currAnimal;
 }
 
 string Player::getSecretAnimal(){

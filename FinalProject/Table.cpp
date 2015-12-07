@@ -15,16 +15,59 @@ Table::Table(){
 
 int Table::addAt(shared_ptr<AnimalCard> card, int row, int col){
 	try{
-		if (_table[row][col] != NULL){ throw IllegalPlacement(); }
 		if (row < 0 || col < 0 || row > 102 || col > 102){ throw IllegalPlacement(); }
-		// DO ALL THE FREAKY CALCS TO GET THIS WORKING
+		if (_table[row][col] != NULL){ throw IllegalPlacement(); }
+		int matches = 0;
+		AnimalCard animal = *card.get();
+
+		// Check the top
+		if (row > 0){
+			shared_ptr<AnimalCard> topCard = _table[row - 1][col];
+			if (topCard != NULL){
+				if (animal._tl == (*topCard)._bl || animal._tr == (*topCard)._br){
+					matches++;
+				}
+			}
+		}
+
+		// Check the bottom
+		if (row < 102){
+			shared_ptr<AnimalCard> bottomCard = _table[row + 1][col];
+			if (bottomCard != NULL){
+				if (animal._bl == (*bottomCard)._tl || animal._br == (*bottomCard)._tr){
+					matches++;
+				}
+			}
+		}
+
+		// Check the left
+		if (col > 0){
+			shared_ptr<AnimalCard> leftCard = _table[row][col - 1];
+			if (leftCard != NULL){
+				if (animal._tl == (*leftCard)._tr || animal._bl == (*leftCard)._br){
+					matches++;
+				}
+			}
+		}
+
+		// Check the right
+		if (col < 102){
+			shared_ptr<AnimalCard> rightCard = _table[row][col + 1];
+			if (rightCard != NULL){
+				if (animal._tr == (*rightCard)._tl || animal._br == (*rightCard)._bl){
+					matches++;
+				}
+			}
+		}
+
+		if (matches < 1){ throw IllegalPlacement(); }
 		_table[row][col] = card;
+		return matches;
 	}
 	catch (IllegalPlacement e){
 		cout << e.what() << endl;
 		return 0;
 	}
-	return 0;
 }
 
 shared_ptr<AnimalCard> Table::pickAt(int row, int col){

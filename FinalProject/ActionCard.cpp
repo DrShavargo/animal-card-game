@@ -12,8 +12,7 @@ QueryResult::QueryResult(bool valid){
 
 QueryResult BearAction::query(){
 	QueryResult result(false);
-	bool legit = true;
-	while (legit){
+	while (!result._valid){
 		string target = "";
 		cout << "Enter the player you'd like to swap hands with, or type 'list' to list players: ";
 		cin >> target;
@@ -28,7 +27,7 @@ QueryResult BearAction::query(){
 			for (Player p : players){
 				if (p.getName() == target){
 					result.targetPlayer = &p;
-					legit = false;
+					result._valid = true;
 				}
 			}
 		}
@@ -48,17 +47,83 @@ void BearAction::perfom(Table& table, Player* player, QueryResult result){
 
 QueryResult DeerAction::query(){
 	QueryResult result(false);
+	while (!result._valid){
+		string target = "";
+		cout << "Enter the player you'd like to swap secret card with, or type 'list' to list players: ";
+		cin >> target;
+		PlayerList* pList = PlayerList::getList();
+		vector<Player> players = pList->getPlayers();
+		if (target == "list"){
+			for (Player p : players){
+				cout << p.getName() << " ";
+			}
+		}
+		else{
+			for (Player p : players){
+				if (p.getName() == target){
+					result.targetPlayer = &p;
+					result._valid = true;
+				}
+			}
+		}
+	}
 	return result;
 }
 
-void DeerAction::perfom(Table& table, Player* player, QueryResult result){}
+void DeerAction::perfom(Table& table, Player* player, QueryResult result){
+	Player *other = result.targetPlayer;
+	string otherAnimal = player->swapSecretAnimal(other->getSecretAnimal());
+	other->swapSecretAnimal(otherAnimal);
+	cout << "Secret animals swapped successfully." << endl;
+}
 
 QueryResult HareAction::query(){
 	QueryResult result(false);
+	while (!result._valid){
+		badPos:
+		int uInput = NULL;
+
+		cout << "Select a row to pick from: ";
+		cin >> uInput;
+		if (cin.fail()) {
+			cout << "Enter numbers only" << endl;
+			goto badPos;
+		}
+		result.oldRow = uInput;
+
+		cout << "Select a column to pick from: ";
+		cin >> uInput;
+		if (cin.fail()) {
+			cout << "Enter numbers only" << endl;
+			goto badPos;
+		}
+		result.oldCol = uInput;
+
+		cout << "Select a row to place at: ";
+		cin >> uInput;
+		if (cin.fail()) {
+			cout << "Enter numbers only" << endl;
+			goto badPos;
+		}
+		result.newRow = uInput;
+
+		cout << "Select a column to place at: ";
+		cin >> uInput;
+		if (cin.fail()) {
+			cout << "Enter numbers only" << endl;
+			goto badPos;
+		}
+		result.newCol = uInput;
+
+		result._valid = true;
+	}
 	return result;
 }
 
-void HareAction::perfom(Table& table, Player* player, QueryResult result){}
+void HareAction::perfom(Table& table, Player* player, QueryResult result){
+	shared_ptr<AnimalCard> card = table.pickAt(result.oldRow, result.oldCol);
+	table.addAt(card, result.newRow, result.newCol);
+}
 
 QueryResult MooseAction::query(){
 	QueryResult result(false);
