@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <iomanip>
 #include "AnimalCard.h"
 #include "Table.h"
 
@@ -24,7 +25,7 @@ int Table::addAt(shared_ptr<AnimalCard> card, int row, int col){
 		if (row > 0){
 			shared_ptr<AnimalCard> topCard = _table[row - 1][col];
 			if (topCard != NULL){
-				if (animal._tl == (*topCard)._bl || animal._tr == (*topCard)._br){
+				if (animal._tl == (*topCard)._bl || animal._tr == (*topCard)._br || (*topCard)._bl == 'c' || (*topCard)._bl == 'j'){
 					matches++;
 				}
 			}
@@ -34,7 +35,7 @@ int Table::addAt(shared_ptr<AnimalCard> card, int row, int col){
 		if (row < 102){
 			shared_ptr<AnimalCard> bottomCard = _table[row + 1][col];
 			if (bottomCard != NULL){
-				if (animal._bl == (*bottomCard)._tl || animal._br == (*bottomCard)._tr){
+				if (animal._bl == (*bottomCard)._tl || animal._br == (*bottomCard)._tr || (*bottomCard)._bl == 'c' || (*bottomCard)._bl == 'j'){
 					matches++;
 				}
 			}
@@ -44,7 +45,7 @@ int Table::addAt(shared_ptr<AnimalCard> card, int row, int col){
 		if (col > 0){
 			shared_ptr<AnimalCard> leftCard = _table[row][col - 1];
 			if (leftCard != NULL){
-				if (animal._tl == (*leftCard)._tr || animal._bl == (*leftCard)._br){
+				if (animal._tl == (*leftCard)._tr || animal._bl == (*leftCard)._br || (*leftCard)._bl == 'c' || (*leftCard)._bl == 'j'){
 					matches++;
 				}
 			}
@@ -54,7 +55,7 @@ int Table::addAt(shared_ptr<AnimalCard> card, int row, int col){
 		if (col < 102){
 			shared_ptr<AnimalCard> rightCard = _table[row][col + 1];
 			if (rightCard != NULL){
-				if (animal._tr == (*rightCard)._tl || animal._br == (*rightCard)._bl){
+				if (animal._tr == (*rightCard)._tl || animal._br == (*rightCard)._bl || (*rightCard)._bl == 'c' || (*rightCard)._bl == 'j'){
 					matches++;
 				}
 			}
@@ -100,6 +101,19 @@ bool Table::win(string& animal){
 
 void Table::print(){
 	for (int i = 0; i < 103; i++){
+		cout << setfill('0') << setw(3) << i;
+		if (i % 10 == 0){
+			for (int m = 0; m < 103; m++){
+				cout << "|" << setfill('0') << setw(2) << (m % 100);
+			}
+		}
+		else{
+			for (int l = 0; l < 103; l++){
+				cout << "|--";
+			}
+		}
+		cout << endl;
+		cout << "   ";
 		for (int j = 0; j < 103; j++){
 			if (_table[i][j] != NULL){
 				shared_ptr<AnimalCard> card = _table[i][j];
@@ -109,6 +123,8 @@ void Table::print(){
 				cout << "   ";
 			}
 		}
+		cout << endl;
+		cout << "   ";
 		for (int k = 0; k < 103; k++){
 			if (_table[i][k] != NULL){
 				shared_ptr<AnimalCard> card = _table[i][k];

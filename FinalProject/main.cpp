@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include "AnimalCard.h"
 #include "AnimalCardFactory.h"
 #include "Hand.h"
@@ -9,6 +10,13 @@
 using namespace std;
 
 void main(){
+	// Setup console window
+	HWND console = GetConsoleWindow();
+	RECT r;
+	GetWindowRect(console, &r); //stores the console's current dimensions
+
+	MoveWindow(console, r.left, r.top, 1920, 1000, TRUE); // 800 width, 100 height
+
 	// Setup game
 	string animalList[5] = { "bear", "deer", "hare", "moose", "wolf" };
 	PlayerList* pList = PlayerList::getList();
@@ -57,13 +65,17 @@ void main(){
 			p.print();
 			h.print();
 
-			badCardNum:
-			int cardNumber = 0;
-			cout << "Please pick a card, from 0 to " << h.noCards() - 1 << ": " << endl;
-			cin >> cardNumber;
-			if (cin.fail()) {
-				cout << "Enter a valid number" << endl;
-				goto badCardNum;
+			bool invalidNumber = true;
+			int cardNumber;
+			while (invalidNumber){
+				cout << "Please pick a card, from 0 to " << h.noCards() - 1 << ": " << endl;
+				cin >> cardNumber;
+				if (cin.fail() || cardNumber > (h.noCards() - 1)) {
+					cout << "Enter a valid number" << endl;
+				}
+				else {
+					invalidNumber = false;
+				}
 			}
 
 			shared_ptr<AnimalCard> chosenCard = h[cardNumber];
@@ -71,44 +83,55 @@ void main(){
 			// AnimalCard or Joker
 			if (islower(type)){
 				string passOrGo;
-				cout << "Would you like to pass? (yes/no)";
+				cout << "Would you like to pass? (yes/no): ";
 				cin >> passOrGo;
 				if (passOrGo == "no"){
-					badPos:
-					int chosenRow, chosenColumn;
-					
-					cout << "Select a row: ";
-					cin >> chosenRow;
-					if (cin.fail()) {
-						cout << "Enter numbers only" << endl;
-						goto badPos;
-					}
-					
-					cout << "Select a column: ";
-					cin >> chosenColumn;
-					if (cin.fail()) {
-						cout << "Enter numbers only" << endl;
-						goto badPos;
-					}
+					bool badPosition = true;
+					while (badPosition){
+						int chosenRow, chosenColumn;
+						badPosition = false;
 
-					int cardsToPick = table.addAt(chosenCard, chosenRow, chosenColumn);
-					if (cardsToPick > 0){
-						for (int i = 0; i < cardsToPick; i++){
-							h += deck.back();
-							deck.pop_back();
+						bool badRow = true;
+						while (badRow){
+							badRow = false;
+							cout << "Select a row ( 0 - 102): ";
+							cin >> chosenRow;
+							if (cin.fail() || chosenRow < 0 || chosenRow > 102) {
+								cout << "Enter a number from 0 to 102" << endl;
+								badRow = true;
+							}
 						}
-						p.setHand(h);
-					}
-					else{
-						cout << "You can't place this card at that location!" << endl;
-						goto badCardNum;
+
+						bool badCol = true;
+						while (badCol){
+							badCol = false;
+							cout << "Select a column ( 0 - 102): ";
+							cin >> chosenColumn;
+							if (cin.fail() || chosenColumn < 0 || chosenColumn > 102) {
+								cout << "Enter a number from 0 to 102" << endl;
+								badCol = true;
+							}
+						}
+
+						int cardsToPick = table.addAt(chosenCard, chosenRow, chosenColumn);
+						if (cardsToPick > 0){
+							for (int i = 0; i < cardsToPick; i++){
+								h += deck.back();
+								deck.pop_back();
+							}
+							p.setHand(h);
+						}
+						else{
+							cout << "You can't place this card at that location!" << endl;
+							badPosition = true;
+						}
 					}
 				}
 
 			}
 			// ActionCard
 			else{
-				
+
 			}
 		}
 

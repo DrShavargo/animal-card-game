@@ -21,10 +21,10 @@ void AnimalCard::setRow(EvenOdd evenOdd){
 
 void AnimalCard::printRow(EvenOdd evenOdd){
 	if (evenOdd == ODD){
-		cout << _tl << _tr << " ";
+		cout << " " << _tl << _tr;
 	}
 	else{
-		cout << _bl << _br << " ";
+		cout << " " << _bl << _br;
 	}
 }
 

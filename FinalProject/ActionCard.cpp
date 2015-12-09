@@ -80,14 +80,15 @@ void DeerAction::perfom(Table& table, Player* player, QueryResult result){
 QueryResult HareAction::query(){
 	QueryResult result(false);
 	while (!result._valid){
-		badPos:
+		result._valid = true;
+
 		int uInput = NULL;
 
 		cout << "Select a row to pick from: ";
 		cin >> uInput;
 		if (cin.fail()) {
 			cout << "Enter numbers only" << endl;
-			goto badPos;
+			result._valid = false;
 		}
 		result.oldRow = uInput;
 
@@ -95,7 +96,7 @@ QueryResult HareAction::query(){
 		cin >> uInput;
 		if (cin.fail()) {
 			cout << "Enter numbers only" << endl;
-			goto badPos;
+			result._valid = false;
 		}
 		result.oldCol = uInput;
 
@@ -103,7 +104,7 @@ QueryResult HareAction::query(){
 		cin >> uInput;
 		if (cin.fail()) {
 			cout << "Enter numbers only" << endl;
-			goto badPos;
+			result._valid = false;
 		}
 		result.newRow = uInput;
 
@@ -111,11 +112,9 @@ QueryResult HareAction::query(){
 		cin >> uInput;
 		if (cin.fail()) {
 			cout << "Enter numbers only" << endl;
-			goto badPos;
+			result._valid = false;
 		}
 		result.newCol = uInput;
-
-		result._valid = true;
 	}
 	return result;
 }

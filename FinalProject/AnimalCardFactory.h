@@ -25,37 +25,37 @@ class AnimalCardFactory {
 		char animals[5] = { 'b', 'd', 'h', 'm', 'w' };
 		int needle = 0;
 		for (int i = 0; i < 5; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&NoSplit(animals[needle % 5]))));
+			_deck.push_back(make_shared<AnimalCard>(NoSplit(animals[needle % 5])));
 			needle++;
 		}
 		for (int i = 0; i < 10; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&SplitTwo(animals[needle % 5], animals[(needle + 1) % 5], HORIZONTAL))));
+			_deck.push_back(make_shared<AnimalCard>(SplitTwo(animals[needle % 5], animals[(needle + 1) % 5], HORIZONTAL)));
 			needle += 2;
 		}
 		for (int i = 0; i < 20; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&SplitThree(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], VERTICAL))));
+			_deck.push_back(make_shared<AnimalCard>(SplitThree(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], VERTICAL)));
 			needle += 3;
 		}
 		for (int i = 0; i < 15; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&SplitFour(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], animals[(needle + 3) % 5]))));
+			_deck.push_back(make_shared<AnimalCard>(SplitFour(animals[needle % 5], animals[(needle + 1) % 5], animals[(needle + 2) % 5], animals[(needle + 3) % 5])));
 			needle += 4;
 		}
 		for (int i = 0; i < 3; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&BearAction())));
+			_deck.push_back(make_shared<AnimalCard>(BearAction()));
 		}
 		for (int i = 0; i < 3; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&DeerAction())));
+			_deck.push_back(make_shared<AnimalCard>(DeerAction()));
 		}
 		for (int i = 0; i < 3; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&HareAction())));
+			_deck.push_back(make_shared<AnimalCard>(HareAction()));
 		}
 		for (int i = 0; i < 3; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&MooseAction())));
+			_deck.push_back(make_shared<AnimalCard>(MooseAction()));
 		}
 		for (int i = 0; i < 3; i++){
-			_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&WolfAction())));
+			_deck.push_back(make_shared<AnimalCard>(WolfAction()));
 		}
-		_deck.push_back(shared_ptr<AnimalCard>(dynamic_cast<AnimalCard*>(&Joker('j'))));
+		_deck.push_back(make_shared<AnimalCard>(Joker('j')));
 	};
 public:
 	static AnimalCardFactory* getfactory(){
