@@ -1,3 +1,8 @@
+/*
+Author: Georges-Antoine Assi
+Repo: https://github.com/DrShavargo/animal-card-game
+*/
+
 #include <iostream>
 #include "Player.h"
 #include "Hand.h"

@@ -1,3 +1,8 @@
+/*
+Author: Georges-Antoine Assi
+Repo: https://github.com/DrShavargo/animal-card-game
+*/
+
 #include <iostream>
 #include "Player.h"
 #include "ActionCard.h"
@@ -42,8 +47,6 @@ void BearAction::perfom(Table& table, Player* player, QueryResult result){
 	other->setHand(tempHand);
 	cout << "Hands swapped successfully." << endl;
 }
-
-// TODO: fill out the actions
 
 QueryResult DeerAction::query(){
 	QueryResult result(false);
@@ -125,15 +128,49 @@ void HareAction::perfom(Table& table, Player* player, QueryResult result){
 }
 
 QueryResult MooseAction::query(){
-	QueryResult result(false);
+	QueryResult result(true);
 	return result;
 }
 
-void MooseAction::perfom(Table& table, Player* player, QueryResult result){}
+void MooseAction::perfom(Table& table, Player* player, QueryResult result){
+	PlayerList* pList = PlayerList::getList();
+	vector<Player> players = pList->getPlayers();
+	players[players.size() - 1].swapSecretAnimal(players[0].getSecretAnimal());
+	for (int i = 0; i < players.size() - 1; i++){
+		string otherAnimal = players[i].swapSecretAnimal(players[i + 1].getSecretAnimal());
+	}
+	cout << "Secret animals swapped successfully." << endl;
+}
 
 QueryResult WolfAction::query(){
 	QueryResult result(false);
+	while (!result._valid){
+		result._valid = true;
+
+		int uInput = NULL;
+
+		cout << "Select a row to pick from: ";
+		cin >> uInput;
+		if (cin.fail()) {
+			cout << "Enter numbers only" << endl;
+			result._valid = false;
+		}
+		result.oldRow = uInput;
+
+		cout << "Select a column to pick from: ";
+		cin >> uInput;
+		if (cin.fail()) {
+			cout << "Enter numbers only" << endl;
+			result._valid = false;
+		}
+		result.oldCol = uInput;
+	}
 	return result;
 }
 
-void WolfAction::perfom(Table& table, Player* player, QueryResult result){}
+void WolfAction::perfom(Table& table, Player* player, QueryResult result){
+	shared_ptr<AnimalCard> card = table.pickAt(result.oldRow, result.oldCol);
+	Hand hand = player->getHand();
+	hand += card;
+	player->setHand(hand);
+}

@@ -1,3 +1,8 @@
+/*
+Author: Georges-Antoine Assi
+Repo: https://github.com/DrShavargo/animal-card-game
+*/
+
 #include <iostream>
 #include <windows.h>
 #include "AnimalCard.h"
@@ -119,6 +124,7 @@ void main(){
 								h += deck.back();
 								deck.pop_back();
 							}
+							h -= chosenCard;
 							p.setHand(h);
 						}
 						else{
@@ -131,7 +137,49 @@ void main(){
 			}
 			// ActionCard
 			else{
+				AnimalCard *animCard = chosenCard.get();
+				
+				BearAction *bCastCard;
+				DeerAction *dCastCard;
+				HareAction *hCastCard;
+				MooseAction *mCastCard;
+				WolfAction *wCastCard;
 
+				NoSplit *nsCard;
+				QueryResult result(false);
+
+				switch (type){
+				case ('B') :
+					nsCard = dynamic_cast<NoSplit*>(animCard);
+					bCastCard = dynamic_cast<BearAction*>(animCard);
+					result = bCastCard->query();
+					bCastCard->perfom(table, &p, result);
+					break;
+				case ('D') :
+					nsCard = dynamic_cast<NoSplit*>(animCard);
+					dCastCard = dynamic_cast<DeerAction*>(animCard);
+					result = dCastCard->query();
+					dCastCard->perfom(table, &p, result);
+					break;
+				case ('H') :
+					nsCard = dynamic_cast<NoSplit*>(animCard);
+					hCastCard = dynamic_cast<HareAction*>(animCard);
+					result = hCastCard->query();
+					hCastCard->perfom(table, &p, result);
+					break;
+				case ('M') :
+					nsCard = dynamic_cast<NoSplit*>(animCard);
+					mCastCard = dynamic_cast<MooseAction*>(animCard);
+					result = mCastCard->query();
+					mCastCard->perfom(table, &p, result);
+					break;
+				case ('W') :
+					nsCard = dynamic_cast<NoSplit*>(animCard);
+					wCastCard = dynamic_cast<WolfAction*>(animCard);
+					result = wCastCard->query();
+					wCastCard->perfom(table, &p, result);
+					break;
+				}
 			}
 		}
 
